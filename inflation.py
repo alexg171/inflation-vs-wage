@@ -29,19 +29,49 @@ data['WAGES_IDX'] = (data['Wages'] / data['Wages'].iloc[0]) * 100
 data['CPI_IDX'] = (data['CPI'] / data['CPI'].iloc[0]) * 100
 data['Real Wages'] = (data['WAGES_IDX'] / data['CPI_IDX'])*100
 
-plt.figure(figsize=(15, 7))
-plt.plot(data.index, data['WAGES_IDX'], label='Nominal Wages', color='blue')
-plt.plot(data.index, data['CPI_IDX'], label='CPI', color='red')
-plt.plot(data.index, data['Real Wages'], label='Real Wages', color='green')
+data.to_csv('wage_vs_inflation.csv', index=True)
 
-ax = plt.gca()
-ax.xaxis.set_major_locator(mdates.YearLocator())
-ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
-ax.xaxis.set_minor_locator(mdates.MonthLocator()) # Monthly ticks
+# plt.figure(figsize=(15, 7))
+# plt.plot(data.index, data['WAGES_IDX'], label='Nominal Wages', color='blue')
+# plt.plot(data.index, data['CPI_IDX'], label='CPI', color='red')
+# plt.plot(data.index, data['Real Wages'], label='Real Wages', color='green')
 
-plt.title(f'Wage vs Inflation Analysis ({args.start_date} to {args.end_date})', fontsize=14)
-plt.grid(True, which='both', alpha=0.3)
-plt.axhline(100, color='black', linewidth=1)
-plt.legend()
-plt.tight_layout()
-plt.show()
+# ax = plt.gca()
+# ax.xaxis.set_major_locator(mdates.YearLocator())
+# ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+# ax.xaxis.set_minor_locator(mdates.MonthLocator()) # Monthly ticks
+
+# plt.title(f'Wage vs Inflation Analysis ({args.start_date} to {args.end_date})', fontsize=14)
+# plt.grid(True, which='both', alpha=0.3)
+# plt.axhline(100, color='black', linewidth=1)
+# plt.legend()
+# plt.tight_layout()
+# plt.show()
+
+import plotly.graph_objects as go
+
+fig = go.Figure()
+fig.add_trace(go.Scatter(x=data.index, y=data['WAGES_IDX'], mode='lines', name='Nominal Wages', line=dict(color='blue')))
+fig.add_trace(go.Scatter(x=data.index, y=data['CPI_IDX'], mode='lines', name='CPI', line=dict(color='red')))
+fig.add_trace(go.Scatter(x=data.index, y=data['Real Wages'], mode='lines', name='Real Wages', line=dict(color='green')))
+
+fig.update_layout(
+    title=f'Wage vs Inflation Analysis ({args.start_date} to {args.end_date})',
+    xaxis_title='Date',
+    yaxis_title='Index (Jan 2007 = 100)',
+    legend_title='Series',
+    template='plotly_white',
+    xaxis=dict(
+        rangeselector=dict(
+            buttons=list([
+                dict(count=1, label="1y", step="year", stepmode="backward"),
+                dict(count=3, label="3y", step="year", stepmode="backward"),
+                dict(step="all")
+            ])
+        ),
+        rangeslider=dict(visible=True),
+        type="date"
+    )
+)
+
+fig.show()
