@@ -16,7 +16,7 @@ fred = Fred(api_key=constants.FRED_API_KEY)
 start_date=args.start_date
 end_date=args.end_date
 
-series_list = {
+series_list = { 
     # overall unemployment rate
     'UNRATE': 'Unemployment Rate',
 
@@ -24,11 +24,11 @@ series_list = {
     # 'LNS14000001': 'Unemployment Rate - Men',
     # 'LNS14000002': 'Unemployment Rate - Women',
 
-    # race
-    'LNS14000003': 'Unemployment Rate - White',
-    'LNS14000006': 'Unemployment Rate - Black or African American',
-    'LNS14000009': 'Unemployment Rate - Hispanic or Latino',
-    'LNS14032183': 'Unemployment Rate - Asian',
+    # # race
+    # 'LNS14000003': 'Unemployment Rate - White',
+    # 'LNS14000006': 'Unemployment Rate - Black or African American',
+    # 'LNS14000009': 'Unemployment Rate - Hispanic or Latino',
+    # 'LNS14032183': 'Unemployment Rate - Asian',
 
     # # age groups - 16-19
     # 'LNS14000012': 'Unemployment Rate - 16-19 Yrs.',
@@ -60,7 +60,7 @@ series_list = {
     # 'LNS14000061': 'Unemployment Rate - 25-54 Yrs., Men',
     # 'LNS14000062': 'Unemployment Rate - 25-54 Yrs., Women',
 
-    # # other specific groups
+    # # age groups - specific
     # 'LNS14000086': 'Unemployment Rate - 16-17 Yrs.',
     # 'LNS14000088': 'Unemployment Rate - 18-19 Yrs.',
     # 'LNS14000089': 'Unemployment Rate - 25-34 Yrs.',
@@ -74,6 +74,7 @@ series_list = {
     # 'LNS14000164': 'Unemployment Rate - 25-34 Yrs., Men',
     # 'LNS14000173': 'Unemployment Rate - 35-44 Yrs., Men',
     # 'LNS14000182': 'Unemployment Rate - 45-54 Yrs., Men',
+    # 'LNS14024230': 'Unemployment Rate - 55 Yrs. & over',
 
     # # women
     # 'LNS14000315': 'Unemployment Rate - Married Women',
@@ -88,11 +89,6 @@ series_list = {
     # 'LNS14023569': 'Unemployment Rate - New Entrants',
     # 'LNS14023705': 'Unemployment Rate - Job Leavers',
 
-    # # age groups - 55 and over
-    # 'LNS14024230': 'Unemployment Rate - 55 Yrs. & over',
-    # 'LNS14024231': 'Unemployment Rate - 55 Yrs. & over, Men',
-    # 'LNS14024232': 'Unemployment Rate - 55 Yrs. & over, Women',
-
     # # age groups - 16-24
     # 'LNS14024885': 'Unemployment Rate - 16-24 Yrs., Men',
     # 'LNS14024886': 'Unemployment Rate - 16-24 Yrs., Women',
@@ -104,9 +100,9 @@ series_list = {
     # 'LNS14027662': 'Unemployment Rate - Bachelor\'s Degree and Higher, 25 Yrs. & over',
     # 'LNS14027689': 'Unemployment Rate - Some College or Associate Degree, 25 Yrs. & over',
     
-    # # employment status
-    # 'LNS14100000': 'Unemployment Rate Full-Time Workers',
-    # 'LNS14200000': 'Unemployment Rate Part-Time Workers',
+    # employment status
+    'LNS14100000': 'Unemployment Rate Full-Time Workers',
+    'LNS14200000': 'Unemployment Rate Part-Time Workers',
 
     # # misc
     # 'PRUR': 'Unemployment Rate in Puerto Rico',
