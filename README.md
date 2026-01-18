@@ -5,14 +5,20 @@
 **How to run:**
 ```python
 # Example usage:
-python .\inflation.py \
-    --start_date=2019-01-01 \
-    --end_date=2024-12-31
+python .\inflation.py --start_date=2019-01-01 --end_date=2024-12-31
 ```
 
 ```python
 # Example usage:
-python .\unemployment.py \
-    --start_date=2019-01-01 \
-    --end_date=2024-12-31
+python .\unemployment.py --start_date=2019-01-01 --end_date=2024-12-31
+```
+
+```python
+# Example usage:
+python .\ces.py --start_date=2019-01-01 --end_date=2024-12-31
+```
+
+```python
+# Example usage:
+python .\src\cpi.py --start_date=2024 --end_date=2025
 ```
