@@ -2,15 +2,17 @@
 
 [fred api docs](https://fred.stlouisfed.org/docs/api/fred/)
 
+[bls api docs](https://www.bls.gov/developers/api_signature_v2.htm)
+
 **How to run:**
 ```python
 # Example usage:
-python .\inflation.py --start_date=2019-01-01 --end_date=2024-12-31
+python .\src\inflation.py --start_date=2019-04-01 --end_date=2025-12-31
 ```
 
 ```python
 # Example usage:
-python .\unemployment.py --start_date=2019-01-01 --end_date=2024-12-31
+python .\src\unemployment.py --start_date=2019-01-01 --end_date=2025-12-31
 ```
 
 ```python
