@@ -171,6 +171,26 @@ def generate_summary_table(df, start_date, end_date):
     )])
     fig.update_layout(title="Summary Table: Wages and Inflation")
     fig.show()
+
+def percentage_change(df, start_date, end_date):
+    print(df.head())
+    df_temp = df[[start_date, end_date]]
+    df_temp['Percentage Change'] = ((df_temp[end_date] - df_temp[start_date]) / df_temp[start_date]) * 100
+    return df_temp
+
+def generate_percentage_change_table(df, start_date, end_date):
+    df_temp = percentage_change(df, start_date, end_date)
+    df_temp = df_temp.sort_values(by='Percentage Change', ascending=False)
+
+    fig = go.Figure(data=go.Table(
+        header=dict(
+            values = ["Category"] + df_temp.columns.tolist()
+        ),
+        cells=dict(
+            values=[df_temp.index, df_temp[start_date], df_temp[end_date], df_temp['Percentage Change']],
+        )
+    ))
+    fig.show()
     
 units = {
     'Levels': 'lin',
