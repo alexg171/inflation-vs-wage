@@ -1,0 +1,25 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+    
+        {
+            "name": "cpi debugger",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/cpi.py",
+            "console": "integratedTerminal",
+            "args": ["--start_date=2000", "--end_date=2025"]
+        },
+        {
+            "name": "unemployment debugger",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/unemployment.py",
+            "console": "integratedTerminal",
+            "args": ["--start_date=2019-01-01", "--end_date=2025-12-01"]
+        }
+    ]
+}

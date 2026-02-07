@@ -38,13 +38,18 @@ series_list = {
 
 args = get_args()
 
-start_year = date(args.start_date).year
-end_year = date(args.end_date).year
-df = fetch_bls_series_list(series_list, start_year, end_year)
+start_year = args.start_date
+end_year = args.end_date
 
-df.to_csv('detailed_cpi_analysis.csv')
+# df = fetch_bls_series_list(series_list, start_year, end_year)
+# df.to_csv('detailed_cpi_analysis.csv')
 
-summarize_cpi_percentage_increase(df, args.start_date, args.end_date)
+df = pd.read_csv('detailed_cpi_analysis.csv', index_col='Date')
+df.index = pd.to_datetime(df.index)
+
+print(df.head())
+
+summarize_cpi_percentage_increase(df)
 
 
-# create_simple_plot('Categorized CPI', df, args.start_date, args.end_date)
+create_simple_plot('Categorized CPI', df, args.start_date, args.end_date)

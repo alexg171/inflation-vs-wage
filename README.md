@@ -50,7 +50,7 @@ python src/unemployment.py --start_date=2019-01-01 --end_date=2025-12-31
 python src/ces.py --start_date=2019-01-01 --end_date=2024-12-31
 
 # Detailed CPI (BLS; start/end are years)
-python src/cpi.py --start_date=2024 --end_date=2025
+python src/cpi.py --start_date=2000-01-01 --end_date=2025-12-31
 ```
 
 ---
