@@ -1,6 +1,6 @@
+import os
 from fredapi import Fred
 import pandas as pd
-import constants
 import argparse
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
@@ -15,15 +15,31 @@ def get_args():
 
     return parser.parse_args()  
 
+def _get_fred_api_key():
+    key = os.environ.get("FRED_API_KEY")
+    if key:
+        return key
+    try:
+        import constants
+        return getattr(constants, "FRED_API_KEY", None)
+    except ImportError:
+        return None
+
+
 def fetch_data(series_list, start_date, end_date, units='lin'):
-    fred = Fred(api_key=constants.FRED_API_KEY)
+    api_key = _get_fred_api_key()
+    if not api_key:
+        raise ValueError("Set FRED_API_KEY in the environment or in src/constants.py (copy from constants.example.py)")
+    fred = Fred(api_key=api_key)
 
     data = pd.DataFrame()
     for series_id, series_name in series_list.items():
         print(f'Fetching data for {series_name} ({series_id})')
-        series_data = fred.get_series(series_id, observation_start=start_date, observation_end=end_date, units=units)
-        data[series_id] = series_data
-    
+        try:
+            series_data = fred.get_series(series_id, observation_start=start_date, observation_end=end_date, units=units)
+            data[series_id] = series_data
+        except Exception as e:
+            raise RuntimeError(f"FRED fetch failed for {series_name} ({series_id}): {e}") from e
     return data
 
 def create_plot(title, yaxis_title, data: pd.DataFrame, start_date, end_date):
@@ -70,6 +86,9 @@ def create_simple_plot(title, data: pd.DataFrame, start_date, end_date):
 
 def fetch_bls_series_list(series_list, start_date, end_date):
     response_json = post_multiple_series(list(series_list.keys()), start_date, end_date)
+    if response_json.get("status") == "REQUEST_FAILED":
+        msg = response_json.get("message", "Unknown BLS API error")
+        raise RuntimeError(f"BLS API request failed: {msg}")
     all_series_dfs = []
 
     for series in response_json['Results']['series']:

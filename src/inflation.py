@@ -1,5 +1,5 @@
-from utilities import *
-    
+from utilities import get_args, fetch_data, create_plot
+
 args = get_args()
 
 series_list = {

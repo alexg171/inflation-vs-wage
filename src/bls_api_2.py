@@ -1,9 +1,21 @@
+import os
 import requests
 import json
-import constants
 
 BASE_URL = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
-API_KEY = constants.BLS_API_KEY
+
+
+def _get_bls_api_key():
+    key = os.environ.get("BLS_API_KEY")
+    if key:
+        return key
+    try:
+        import constants
+        return getattr(constants, "BLS_API_KEY", None)
+    except ImportError:
+        return None
+
+
 HEADERS = {'Content-type': 'application/json'}
 
 def get_single_series(series_id):
@@ -14,11 +26,14 @@ def get_single_series(series_id):
 
 def post_multiple_series(series_ids, startyear, endyear):
     """POST request for multiple series (no optional parameters)"""
+    key = _get_bls_api_key()
+    if not key:
+        raise ValueError("Set BLS_API_KEY in the environment or in src/constants.py (copy from constants.example.py)")
     payload = {
         "seriesid": series_ids,
         "startyear": str(startyear),
         "endyear": str(endyear),
-        "registrationkey": API_KEY
+        "registrationkey": key
     }
     response = requests.post(BASE_URL, data=json.dumps(payload), headers=HEADERS)
     return response.json()
@@ -35,7 +50,7 @@ def post_series_with_options(series_ids, startyear, endyear,
         "calculations": calculations,
         "annualaverage": annualaverage,
         "aspects": aspects,
-        "registrationkey": API_KEY
+        "registrationkey": _get_bls_api_key()
     }
     response = requests.post(BASE_URL, data=json.dumps(payload), headers=HEADERS)
     return response.json()

@@ -1,0 +1,8 @@
+# Data & APIs
+fredapi>=0.5.0
+pandas>=2.0.0
+requests>=2.28.0
+
+# Plotting
+plotly>=5.0.0
+matplotlib>=3.7.0

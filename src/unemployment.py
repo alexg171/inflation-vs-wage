@@ -1,6 +1,6 @@
+import os
 from utilities import get_args, create_plot, percentage_change, generate_percentage_change_table
 import pandas as pd
-import plotly.graph_objects as go
 
 series_list = { 
     # overall unemployment rate
@@ -101,7 +101,8 @@ series_list = {
 
 args = get_args()
 
-df = pd.read_csv('data\\unemployment_data.csv', 
+_data_dir = os.path.join(os.path.dirname(__file__), "..", "data")
+df = pd.read_csv(os.path.join(_data_dir, "unemployment_data.csv"), 
                  usecols= ["Date"] + list(series_list.keys()),
                  index_col="Date"
     ).rename(columns=series_list)
