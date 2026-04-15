@@ -21,12 +21,15 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import matplotlib.ticker as mticker
 import numpy as np
+import plotly.graph_objects as go
 
 # ── paths ──────────────────────────────────────────────────────────────────────
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 DATA_DIR = os.path.join(ROOT, "data")
 IMG_DIR = os.path.join(ROOT, "images")
+DOCS_DIR = os.path.join(ROOT, "docs")
 os.makedirs(IMG_DIR, exist_ok=True)
+os.makedirs(DOCS_DIR, exist_ok=True)
 
 WAGE_CSV = os.path.join(DATA_DIR, "wage_vs_inflation.csv")
 CPI_CSV  = os.path.join(DATA_DIR, "prepared_cpi_data.csv")
@@ -259,6 +262,136 @@ def chart2_cpi_categories():
 
 
 # ══════════════════════════════════════════════════════════════════════════════
+# PLOTLY EXPORTS — interactive HTML for GitHub Pages
+# ══════════════════════════════════════════════════════════════════════════════
+
+def _load_chart2_data():
+    """Shared data loading for chart 2 (used by both matplotlib and Plotly versions)."""
+    df = pd.read_csv(CPI_CSV, index_col="Date", parse_dates=True)
+    start, end = df.index.min(), df.index.max()
+
+    pct = {}
+    for col in df.columns:
+        series = df[col].dropna()
+        if len(series) >= 2:
+            pct[col] = (series.iloc[-1] / series.iloc[0] - 1) * 100
+
+    wage_df = pd.read_csv(WAGE_CSV, index_col=0, parse_dates=True)
+    w = wage_df.loc[start:end, "Wages"]
+    wage_growth = (w.iloc[-1] / w.iloc[0] - 1) * 100
+    pct["Wages"] = wage_growth
+
+    inflation_rate = pct.get("All Items")
+    pct_series = pd.Series(pct).sort_values(ascending=True)
+    rel_vals = pct_series - inflation_rate
+    return pct_series, rel_vals, inflation_rate, wage_growth, start, end
+
+
+def chart1_plotly():
+    df = pd.read_csv(WAGE_CSV, index_col=0, parse_dates=True)
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=df.index, y=df["WAGES_IDX"], name="Nominal Wages",
+                             line=dict(color=BLUE, width=2.5)))
+    fig.add_trace(go.Scatter(x=df.index, y=df["CPI_IDX"], name="CPI (Inflation)",
+                             line=dict(color=RED, width=2.5)))
+    fig.add_trace(go.Scatter(x=df.index, y=df["Real Wages"], name="Real Wages",
+                             line=dict(color=GREEN, width=2.5, dash="dash")))
+    fig.add_hline(y=100, line=dict(color=GRAY, width=1, dash="dot"))
+
+    peak_date = df["CPI_IDX"].idxmax()
+    peak_val  = df.loc[peak_date, "CPI_IDX"]
+    fig.add_annotation(x=peak_date, y=peak_val,
+                       text=f"Inflation peak<br>{peak_date.strftime('%b %Y')}",
+                       showarrow=True, arrowhead=2, arrowcolor=RED,
+                       font=dict(color=RED, size=11), ax=-80, ay=-30)
+
+    fig.update_layout(
+        title=dict(text="Have Wages Kept Up With Inflation?", font=dict(size=18)),
+        yaxis_title="Index (Jan 2019 = 100)",
+        legend=dict(x=0.01, y=0.99),
+        template="plotly_white",
+        xaxis=dict(
+            rangeselector=dict(buttons=[
+                dict(count=1, label="1y", step="year", stepmode="backward"),
+                dict(count=3, label="3y", step="year", stepmode="backward"),
+                dict(step="all", label="All"),
+            ]),
+            rangeslider=dict(visible=True),
+            type="date",
+        ),
+        annotations=[dict(
+            text="Source: BLS — Average Hourly Earnings (CES0500000003) & CPI-U (CPIAUCSL). Jan 2019 = 100.",
+            xref="paper", yref="paper", x=0, y=-0.18, showarrow=False,
+            font=dict(size=9, color=GRAY), align="left",
+        )],
+    )
+
+    out = os.path.join(DOCS_DIR, "chart1_wages_vs_cpi.html")
+    fig.write_html(out, include_plotlyjs="cdn")
+    print(f"Saved → {out}")
+    return fig
+
+
+def chart2_plotly():
+    if not os.path.exists(CPI_CSV):
+        print(f"\n  {CPI_CSV} not found. Run prepare_cpi_data.py first.")
+        return None
+
+    pct_series, rel_vals, inflation_rate, wage_growth, start, end = _load_chart2_data()
+    categories = pct_series.index.tolist()
+    abs_vals   = pct_series.values.tolist()
+
+    bar_colors = []
+    for c, rv in zip(categories, rel_vals):
+        if c == "All Items":
+            bar_colors.append(GRAY)
+        elif c == "Wages":
+            bar_colors.append(BLUE)
+        elif rv > 0:
+            bar_colors.append("#EF4444")
+        else:
+            bar_colors.append("#16A34A")
+
+    fig = go.Figure(go.Bar(
+        x=abs_vals, y=categories, orientation="h",
+        marker_color=bar_colors, opacity=0.85,
+        text=[f"{v:.1f}%" for v in abs_vals],
+        textposition="outside",
+        hovertemplate="%{y}: %{x:.1f}%<extra></extra>",
+    ))
+
+    fig.add_vline(x=inflation_rate, line=dict(color=GRAY, width=2, dash="dash"),
+                  annotation_text=f"Overall inflation {inflation_rate:.1f}%",
+                  annotation_position="top right", annotation_font_color=GRAY)
+    fig.add_vline(x=wage_growth, line=dict(color=BLUE, width=2, dash="dash"),
+                  annotation_text=f"Wage growth {wage_growth:.1f}%",
+                  annotation_position="top left", annotation_font_color=BLUE)
+
+    fig.update_layout(
+        title=dict(
+            text=f"Price Change by Category vs. Overall Inflation<br>"
+                 f"<sup>{start.strftime('%b %Y')} – {end.strftime('%b %Y')}</sup>",
+            font=dict(size=16),
+        ),
+        xaxis=dict(title="% Change", ticksuffix="%"),
+        template="plotly_white",
+        height=max(600, len(categories) * 22),
+        margin=dict(l=180, r=80, t=80, b=60),
+        annotations=[dict(
+            text="Source: BLS CPI-U.",
+            xref="paper", yref="paper", x=0, y=-0.06, showarrow=False,
+            font=dict(size=9, color=GRAY), align="left",
+        )],
+    )
+
+    out = os.path.join(DOCS_DIR, "chart2_cpi_categories.html")
+    fig.write_html(out, include_plotlyjs="cdn")
+    print(f"Saved → {out}")
+    return fig
+
+
+# ══════════════════════════════════════════════════════════════════════════════
 if __name__ == "__main__":
     print("=" * 60)
     print("Chart 1: Wages vs CPI (indexed)")
@@ -270,3 +403,10 @@ if __name__ == "__main__":
     print("Chart 2: CPI Categories vs Wage Growth")
     print("=" * 60)
     chart2_cpi_categories()
+
+    print()
+    print("=" * 60)
+    print("Exporting interactive HTML for GitHub Pages")
+    print("=" * 60)
+    chart1_plotly()
+    chart2_plotly()

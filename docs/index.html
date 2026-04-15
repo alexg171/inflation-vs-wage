@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inflation vs Wages</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      color: #111827;
+      background: #fff;
+    }
+    h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+    p.subtitle { color: #6B7280; margin-top: 0; }
+    .chart-link {
+      display: block;
+      border: 1px solid #E5E7EB;
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      margin: 1rem 0;
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow 0.15s;
+    }
+    .chart-link:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+    .chart-link h2 { margin: 0 0 0.3rem; font-size: 1.15rem; }
+    .chart-link p  { margin: 0; color: #6B7280; font-size: 0.9rem; }
+    footer { margin-top: 3rem; font-size: 0.8rem; color: #9CA3AF; }
+  </style>
+</head>
+<body>
+  <h1>Inflation vs Wages</h1>
+  <p class="subtitle">Data from FRED &amp; BLS &mdash; interactive charts</p>
+
+  <a class="chart-link" href="chart1_wages_vs_cpi.html">
+    <h2>Chart 1 &mdash; Have Wages Kept Up With Inflation?</h2>
+    <p>Nominal wages, CPI, and real wages indexed to Jan 2019.</p>
+  </a>
+
+  <a class="chart-link" href="chart2_cpi_categories.html">
+    <h2>Chart 2 &mdash; Price Change by Category</h2>
+    <p>% change per CPI category vs. overall inflation and wage growth.</p>
+  </a>
+
+  <footer>
+    Source: <a href="https://fred.stlouisfed.org/">FRED</a> &amp;
+    <a href="https://www.bls.gov/developers/">BLS API v2</a>.
+    Charts generated with <a href="https://plotly.com/python/">Plotly</a>.
+  </footer>
+</body>
+</html>
