@@ -1,14 +1,12 @@
 # Inflation vs Wages
 
-Python project for analyzing **wages, inflation (CPI), and unemployment** using [FRED](https://fred.stlouisfed.org/) and [BLS](https://www.bls.gov/developers/) data. Produces interactive Plotly charts and summary tables.
+A Python project for analyzing **wages, inflation (CPI), and unemployment** using data from [FRED](https://fred.stlouisfed.org/) and [BLS](https://www.bls.gov/developers/). Produces interactive Plotly charts and summary tables to visualize trends and comparisons.
+
+**Purpose:** Get familiarized with the BLS API and run basic visualizations of CPI and wage data.
 
 **Related:** [Have wages kept up with inflation?](https://www.youtube.com/watch?v=46rAsbFmRBw&t=1s) · [FRED API](https://fred.stlouisfed.org/docs/api/fred/) · [BLS API](https://www.bls.gov/developers/api_signature_v2.htm)
 
 ---
-
-## Purpose
-
-The purpose of this project is to get familiarized with the BLS api and run basic visualizations of CPI and wage data.
 
 ## Setup
 
