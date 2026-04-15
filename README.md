@@ -4,7 +4,7 @@ Python project for analyzing **wages and inflation (CPI)** using data from [FRED
 
 **Purpose:** Get familiarized with the BLS API and run basic visualizations of CPI and wage data.
 
-**Related:** [Have wages kept up with inflation?](https://www.youtube.com/watch?v=46rAsbFmRBw&t=1s) · [FRED API](https://fred.stlouisfed.org/docs/api/fred/) · [BLS API](https://www.bls.gov/developers/api_signature_v2.htm)
+**Related:** [Have wages kept up with inflation?](https://wokeonmain.substack.com/p/question-have-wages-kept-up-with) · [FRED API](https://fred.stlouisfed.org/docs/api/fred/) · [BLS API](https://www.bls.gov/developers/api_signature_v2.htm)
 
 ---
 
@@ -49,7 +49,7 @@ python src/analysis.py
 
 Outputs:
 - `images/chart1_wages_vs_cpi.png` and `images/chart2_cpi_categories.png` — static images
-- `docs/chart1_wages_vs_cpi.html` and `docs/chart2_cpi_categories.html` — interactive Plotly charts
+- `docs/index.html` — both charts on one interactive page (for GitHub Pages)
 
 ### Fetch fresh CPI data
 

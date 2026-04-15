@@ -327,9 +327,6 @@ def chart1_plotly():
         )],
     )
 
-    out = os.path.join(DOCS_DIR, "chart1_wages_vs_cpi.html")
-    fig.write_html(out, include_plotlyjs="cdn")
-    print(f"Saved → {out}")
     return fig
 
 
@@ -385,10 +382,66 @@ def chart2_plotly():
         )],
     )
 
-    out = os.path.join(DOCS_DIR, "chart2_cpi_categories.html")
-    fig.write_html(out, include_plotlyjs="cdn")
-    print(f"Saved → {out}")
     return fig
+
+
+def export_github_pages():
+    fig1 = chart1_plotly()
+    fig2 = chart2_plotly()
+    if fig1 is None or fig2 is None:
+        print("  Skipping HTML export — missing data.")
+        return
+
+    div1 = fig1.to_html(full_html=False, include_plotlyjs="cdn")
+    div2 = fig2.to_html(full_html=False, include_plotlyjs=False)
+
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inflation vs Wages</title>
+  <style>
+    body {{
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      color: #111827;
+      background: #fff;
+    }}
+    h1 {{ font-size: 2rem; margin-bottom: 0.25rem; }}
+    p.subtitle {{ color: #6B7280; margin-top: 0; margin-bottom: 2rem; }}
+    h2 {{ font-size: 1.2rem; margin: 2.5rem 0 0.5rem; color: #374151; }}
+    hr {{ border: none; border-top: 1px solid #E5E7EB; margin: 2rem 0; }}
+    footer {{ margin-top: 3rem; font-size: 0.8rem; color: #9CA3AF; }}
+    footer a {{ color: #9CA3AF; }}
+  </style>
+</head>
+<body>
+  <h1>Inflation vs Wages</h1>
+  <p class="subtitle">Interactive charts — data from FRED &amp; BLS</p>
+
+  <h2>Chart 1 &mdash; Have Wages Kept Up With Inflation?</h2>
+  {div1}
+
+  <hr />
+
+  <h2>Chart 2 &mdash; Price Change by Category vs. Overall Inflation</h2>
+  {div2}
+
+  <footer>
+    Source: <a href="https://fred.stlouisfed.org/">FRED</a> &amp;
+    <a href="https://www.bls.gov/developers/">BLS API v2</a>.
+    Charts built with <a href="https://plotly.com/python/">Plotly</a>.
+  </footer>
+</body>
+</html>"""
+
+    out = os.path.join(DOCS_DIR, "index.html")
+    with open(out, "w", encoding="utf-8") as f:
+        f.write(html)
+    print(f"Saved → {out}")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -408,5 +461,4 @@ if __name__ == "__main__":
     print("=" * 60)
     print("Exporting interactive HTML for GitHub Pages")
     print("=" * 60)
-    chart1_plotly()
-    chart2_plotly()
+    export_github_pages()
