@@ -210,15 +210,3 @@ def generate_percentage_change_table(df, start_date, end_date):
         )
     ))
     fig.show()
-    
-units = {
-    'Levels': 'lin',
-    'Change': 'chg',
-    'Change from Year Ago': 'ch1',
-    'Percent Change': 'pch',
-    'Percent Change from Year Ago': 'pc1',
-    'Compounded Annual Rate of Change': 'pca',
-    'Continuously Compounded Rate of Change': 'cch',
-    'Continuously Compounded Annual Rate of Change': 'cca',
-    'Natural Log': 'log'
-}

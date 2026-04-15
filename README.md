@@ -6,6 +6,10 @@ Python project for analyzing **wages, inflation (CPI), and unemployment** using 
 
 ---
 
+## Purpose
+
+The purpose of this project is to get familiarized with the BLS api and run basic visualizations of CPI and wage data.
+
 ## Setup
 
 1. **Clone and create a virtual environment (recommended):**

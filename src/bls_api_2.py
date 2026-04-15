@@ -1,3 +1,8 @@
+"""
+BLS API v2 wrapper functions using requests library.
+Requires BLS_API_KEY to be set in environment or in src/constants.py.
+"""
+
 import os
 import requests
 import json
