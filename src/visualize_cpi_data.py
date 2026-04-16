@@ -7,8 +7,8 @@ import os
 
 def get_args_for_visualization():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--start_date', type=str, default='2019-01-01', help='Start date for the data in YYYY-MM-DD format')
-    parser.add_argument('--end_date', type=str, default='2025-12-31', help='End date for the data in YYYY-MM-DD format')
+    parser.add_argument('--start_date', type=str, default='2006-01-01', help='Start date for the data in YYYY-MM-DD format')
+    parser.add_argument('--end_date', type=str, default='2026-12-31', help='End date for the data in YYYY-MM-DD format')
     return parser.parse_args()
 
 def summarize_cpi_percentage_increase(df: pd.DataFrame, start_date=None, end_date=None):

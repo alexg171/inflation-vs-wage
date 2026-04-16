@@ -9,8 +9,8 @@ from bls_api_2 import post_multiple_series
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--start_date', type=str, default='2019-01-01', help='Start date for the data in YYYY-MM-DD format')
-    parser.add_argument('--end_date', type=str, default='2025-12-31', help='End date for the data in YYYY-MM-DD format')
+    parser.add_argument('--start_date', type=str, default='2006-01-01', help='Start date for the data in YYYY-MM-DD format')
+    parser.add_argument('--end_date', type=str, default='2026-12-31', help='End date for the data in YYYY-MM-DD format')
     parser.add_argument('--units', type=str, default=None, help='Units for the data (e.g., lin, chg, ch1, pc1, pca, cch, cca, log)')
 
     return parser.parse_args()  
