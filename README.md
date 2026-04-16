@@ -11,7 +11,6 @@ Python project for analyzing **wages and inflation (CPI)** using data from [FRED
 ## Interactive charts
 
 - **GitHub Pages:** [alexg171.github.io/inflation-vs-wage](https://alexg171.github.io/inflation-vs-wage)
-- **Streamlit:** deploy via [streamlit.io](https://streamlit.io) (see below)
 
 ---
 
@@ -59,12 +58,6 @@ python src/prepare_cpi_data.py --start_date 2019 --end_date 2026
 
 Saves to `data/prepared_cpi_data.csv`.
 
-### Run the Streamlit app locally
-
-```bash
-streamlit run streamlit_app.py
-```
-
 ---
 
 ## Deploy
@@ -75,15 +68,6 @@ streamlit run streamlit_app.py
 2. Commit and push.
 3. In your repo settings → **Pages** → set source to **Deploy from branch**, branch `main`, folder `/docs`.
 4. Your charts will be live at `https://<your-username>.github.io/inflation-vs-wage/`.
-
-### Streamlit Cloud
-
-1. Push this repo to GitHub.
-2. Go to [share.streamlit.io](https://share.streamlit.io) → **New app** → select your repo.
-3. Set **Main file path** to `streamlit_app.py`.
-4. Add `FRED_API_KEY` and `BLS_API_KEY` under **Advanced settings → Secrets**.
-
----
 
 ## Project layout
 
@@ -99,6 +83,5 @@ data/
   prepared_cpi_data.csv
 docs/                  # GitHub Pages output (generated)
 images/                # Static PNG output (generated)
-streamlit_app.py       # Streamlit web app
 requirements.txt
 ```

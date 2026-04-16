@@ -6,6 +6,3 @@ requests>=2.28.0
 # Plotting
 plotly>=5.0.0
 matplotlib>=3.7.0
-
-# Web app
-streamlit>=1.35.0
